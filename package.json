@@ -1,0 +1,25 @@
+{
+  "name": "rpc-matchmaker",
+  "version": "1.0.0",
+  "description": "Adapter that makes matchmaker-redis work with rpc-over-ws",
+  "keywords": [
+    "matchmaker",
+    "matchmaking"
+  ],
+  "author": "Brian Hammond <brian@fictorial.com>",
+  "license": "MIT",
+  "dependencies": {
+    "matchmaker-redis": "^1.1.1"
+  },
+  "devDependencies": {
+    "rpc-over-ws": "^1.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fictorial/rpc-matchmaker.git"
+  },
+  "homepage": "https://github.com/fictorial/rpc-matchmaker.git",
+  "bugs": {
+    "url": "https://github.com/fictorial/rpc-matchmaker/issues"
+  }
+}
