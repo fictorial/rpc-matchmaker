@@ -1,12 +1,16 @@
+const EventEmitter = require('events')
+
 module.exports = function (redis) {
   const matchmaker = require('matchmaker-redis')(redis)
+
+  const emitter = new EventEmitter()
 
   return {
     createEvent: function ({capacity, params, perUserTimeoutSec, whitelist, blacklist}) {
       if (!this.clientId || !this.alias)
         return Promise.reject('authentication required')
 
-      return matchmaker.createEvent({
+      const event = {
         userId: this.clientId,
         userAlias: this.alias,
         capacity,
@@ -14,6 +18,12 @@ module.exports = function (redis) {
         perUserTimeoutSec,
         whitelist,
         blacklist
+      }
+
+      return matchmaker.createEvent(event)
+      .then(event => {
+        emitter.emit('event-created', this, event)
+        return event
       })
     },
 
@@ -27,6 +37,11 @@ module.exports = function (redis) {
         capacity,
         params,
       })
+      .then(event => {
+        if (event)
+          emitter.emit('event-joined', this, event)
+        return event
+      })
     },
 
     cancelEvent: function ({eventId}) {
@@ -38,6 +53,7 @@ module.exports = function (redis) {
         userAlias: this.alias,
         eventId
       })
+      .then(() => emitter.emit('event-canceled', this, eventId))
     },
 
     getEventsFor: function () {
@@ -59,6 +75,12 @@ module.exports = function (redis) {
         userAlias: this.alias,
         eventId
       })
-    }
+      .then(event => {
+        emitter.emit('event-joined', this, event)
+        return event
+      })
+    },
+
+    emitter
   }
 }
