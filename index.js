@@ -5,8 +5,7 @@ module.exports = function (redis) {
 
   const emitter = new EventEmitter()
 
-  return {
-    createEvent: function ({capacity, params, perUserTimeoutSec, whitelist, blacklist}) {
+  function createEvent({capacity, params, perUserTimeoutSec, whitelist, blacklist}) {
       if (!this.clientId || !this.alias)
         return Promise.reject('authentication required')
 
@@ -25,9 +24,9 @@ module.exports = function (redis) {
         emitter.emit('event-created', this, event)
         return event
       })
-    },
+    }
 
-    autojoinEvent: function ({capacity, params}) {
+    function autojoinEvent({capacity, params}) {
       if (!this.clientId || !this.alias)
         return Promise.reject('authentication required')
 
@@ -42,9 +41,9 @@ module.exports = function (redis) {
           emitter.emit('event-joined', this, event)
         return event
       })
-    },
+    }
 
-    cancelEvent: function ({eventId}) {
+    function cancelEvent({eventId}) {
       if (!this.clientId || !this.alias)
         return Promise.reject('authentication required')
 
@@ -54,9 +53,9 @@ module.exports = function (redis) {
         eventId
       })
       .then(() => emitter.emit('event-canceled', this, eventId))
-    },
+    }
 
-    getEventsFor: function () {
+    function getEventsFor() {
       if (!this.clientId || !this.alias)
         return Promise.reject('authentication required')
 
@@ -64,9 +63,9 @@ module.exports = function (redis) {
         userId: this.clientId,
         userAlias: this.alias,
       })
-    },
+    }
 
-    joinEvent: function ({eventId}) {
+    function joinEvent({eventId}) {
       if (!this.clientId || !this.alias)
         return Promise.reject('authentication required')
 
@@ -79,8 +78,14 @@ module.exports = function (redis) {
         emitter.emit('event-joined', this, event)
         return event
       })
-    },
+    }
 
+  return {
+    createEvent,
+    autojoinEvent,
+    cancelEvent,
+    joinEvent,
+    getEventsFor,
     emitter
   }
 }

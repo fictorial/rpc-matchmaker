@@ -1,6 +1,6 @@
 {
   "name": "rpc-matchmaker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Adapter that makes matchmaker-redis work with rpc-over-ws",
   "keywords": [
     "matchmaker",
