@@ -1,6 +1,6 @@
 {
   "name": "rpc-matchmaker",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Adapter that makes matchmaker-redis work with rpc-over-ws",
   "keywords": [
     "matchmaker",
@@ -12,7 +12,7 @@
     "matchmaker-redis": "^1.1.1"
   },
   "devDependencies": {
-    "rpc-over-ws": "^1.1.0"
+    "rpc-over-ws": "^1.2.1"
   },
   "repository": {
     "type": "git",
